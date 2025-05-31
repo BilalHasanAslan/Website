@@ -1,0 +1,595 @@
+:root {
+    --bg-color: #0a0d14; /* Very dark, slightly blueish charcoal */
+    --primary-text-color: #e0e0e0;
+    --secondary-text-color: #b0b0b0;
+    --accent-color-pulse: #2A52BE; /* Cerulean Blue for pulses */
+    --accent-color-hover: #4682B4; /* Steel Blue for hover/interaction */
+    --node-color: #50586a; /* Desaturated, muted blue/grey for nodes */
+    --connection-color: rgba(80, 88, 106, 0.3); /* Fainter connections */
+    --card-bg-color: #101522; /* Slightly lighter than main bg for cards */
+
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --container-width: 1100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--primary-text-color);
+    line-height: 1.7;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+#neuralNetworkCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Behind all content */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 5%; /* Padding on sides can remain if you like */
+    background-color: rgba(10, 13, 20, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: center; /* This is the key to centering the <ul> */
+    align-items: center;
+    width: 100%; /* Ensure nav takes full width to allow justify-content to work */
+}
+
+nav .logo {
+    font-family: var(--font-heading);
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-text-color);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    padding: 0; /* Ensure no default padding interferes with centering */
+    margin: 0;  /* Ensure no default margin interferes with centering */
+}
+
+nav ul li {
+    margin-left: 20px; /* Adjust spacing between items */
+    margin-right: 20px; /* Adjust spacing between items */
+}
+
+nav ul li:first-child {
+    margin-left: 0;
+}
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--primary-text-color);
+    font-weight: 400;
+    font-size: 0.95em; /* Or adjust to your preference */
+    transition: color 0.3s ease;
+    padding: 5px 0; /* Add some vertical padding if needed for click area */
+}
+
+nav ul li a:hover {
+    color: var(--accent-color-hover);
+}
+
+main {
+    padding-top: 80px; /* Account for fixed header */
+}
+
+#hero {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    position: relative; /* For z-indexing if needed */
+}
+
+#hero h1 {
+    font-family: var(--font-heading);
+    font-size: 3.5em;
+    margin-bottom: 0.3em;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+#hero p {
+    font-size: 1.3em;
+    color: var(--secondary-text-color);
+    margin-bottom: 0.5em;
+}
+
+#hero .tagline {
+    font-size: 1.1em;
+    color: var(--accent-color-hover);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+
+.content-section {
+    padding: 80px 5%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+.content-section h2 {
+    font-family: var(--font-heading);
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    color: var(--primary-text-color);
+}
+
+.content-section h2::after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 3px;
+    background-color: var(--accent-color-hover);
+    margin: 15px auto 0;
+}
+
+/* About Section Specifics */
+.about-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+.about-text {
+    flex: 2;
+}
+.about-text p {
+    margin-bottom: 1.5em;
+    font-size: 1.05em;
+}
+.about-photo {
+    flex: 1;
+    text-align: center;
+}
+.about-photo img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 3px solid var(--accent-color-hover);
+}
+
+
+/* Research Grid */
+.research-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Changed: Each card takes full width of the grid container */
+    gap: 30px; /* Keeps vertical spacing between cards */
+}
+
+.project-card {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 5px solid var(--accent-color-hover);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.project-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: var(--primary-text-color);
+}
+
+.project-card p {
+    font-size: 0.95em;
+    margin-bottom: 15px;
+    color: var(--secondary-text-color);
+}
+.project-card .tech-tags {
+    font-size: 0.8em;
+    color: var(--accent-color-hover);
+    font-weight: 600;
+}
+
+/* Publications Section */
+.publication-group {
+    margin-bottom: 40px; /* Space between year groups */
+}
+
+.publication-group:last-child {
+    margin-bottom: 0;
+}
+
+.publication-group h3 {
+    font-family: var(--font-heading);
+    font-size: 1.8em;
+    color: var(--primary-text-color); /* Or var(--accent-color-hover) */
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color-hover);
+    text-align: left; /* Align year to the left */
+}
+
+.publication-group h3 .year-status {
+    font-size: 0.7em;
+    color: var(--secondary-text-color);
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.publication-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Modified .publication-list li */
+.publication-list li {
+    background-color: var(--card-bg-color);
+    padding: 20px 25px; /* Increased padding */
+    margin-bottom: 15px; /* Increased margin */
+    border-radius: 6px; /* Slightly more rounded */
+    border-left: 4px solid var(--accent-color-hover);
+    line-height: 1.6; /* Improved line spacing for readability */
+    display: flex; /* For aligning link to the right */
+    flex-wrap: wrap; /* Allow items to wrap if needed */
+    align-items: flex-start; /* Align items to the top */
+}
+
+.publication-list li span {
+    display: block; /* Each part on its own "line" effectively if wrapping */
+    margin-right: 5px; /* Space between elements on the same line if they fit */
+    margin-bottom: 5px; /* Space below each span */
+}
+
+.publication-list li .pub-authors {
+    font-weight: 400;
+    color: var(--primary-text-color);
+    width: 100%; /* Make authors take full width initially */
+}
+
+.publication-list li .pub-authors strong {
+    font-weight: 700; /* Make your name bolder */
+}
+
+.publication-list li .pub-year {
+    color: var(--secondary-text-color);
+    font-style: italic;
+    margin-right: 10px;
+}
+
+.publication-list li .pub-title {
+    font-weight: 600; /* Make title stand out */
+    color: var(--primary-text-color);
+    flex-basis: 100%; /* Ensure title takes full width before venue */
+    margin-top: 2px;
+}
+
+.publication-list li .pub-venue {
+    color: var(--secondary-text-color);
+    font-style: italic;
+    flex-grow: 1; /* Allow venue to take remaining space */
+}
+
+.publication-list li .pub-link {
+    margin-left: auto; /* Pushes link to the far right */
+    padding-left: 15px; /* Space before the link */
+    color: var(--accent-color-hover);
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap; /* Prevent link text from wrapping */
+    align-self: center; /* Vertically center link if line height allows */
+}
+
+.publication-list li .pub-link:hover {
+    text-decoration: underline;
+    color: var(--accent-color-pulse);
+}
+
+
+/* Skills Grid */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+.skill-category {
+    background-color: var(--card-bg-color);
+    padding: 20px;
+    border-radius: 8px;
+}
+.skill-category h3 {
+    font-family: var(--font-heading);
+    font-size: 1.3em;
+    color: var(--accent-color-hover);
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+.skills-list {
+    display: flex; /* Arrange tags in a row */
+    flex-wrap: wrap; /* Allow tags to wrap to the next line if they don't fit */
+    gap: 10px; /* Spacing between tags (both horizontally and vertically when wrapped) */
+    padding-top: 8px; /* A little space below the category heading's bottom border */
+}
+
+.skill-tag {
+    background-color: rgba(70, 130, 180, 0.15); /* A subtle background using accent color with opacity */
+    /* Alternative background: var(--card-bg-color) and border: 1px solid var(--accent-color-hover); */
+    color: var(--accent-color-hover); /* Text color for the tags */
+    padding: 7px 14px; /* Padding inside each tag */
+    border-radius: 16px; /* Rounded corners for the pill shape */
+    font-size: 0.9em;   /* Adjust font size as needed */
+    font-weight: 500;   /* Slightly bolder than normal text */
+    /* border: 1px solid var(--accent-color-hover); /* Optional: if you want a more defined border */
+    transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
+    cursor: default; /* Indicates they are not clickable links (unless you make them so) */
+}
+
+.skill-tag:hover {
+    background-color: var(--accent-color-hover); /* Make tag more prominent on hover */
+    color: var(--bg-color); /* Change text color for contrast on hover */
+    /* transform: translateY(-2px); */ /* Optional: slight lift effect */
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.2); */ /* Optional: subtle shadow */
+}
+
+
+/* Contact Section */
+
+#contact .contact-methods {
+    display: flex;
+    flex-direction: column; /* Stack methods vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 25px; /* Space between contact methods */
+    margin-top: 40px;
+}
+
+.contact-method {
+    display: flex; /* Align icon and text horizontally */
+    align-items: center; /* Vertically center icon and text */
+    background-color: var(--card-bg-color); /* Optional: card-like background */
+    padding: 15px 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-width: 300px; /* Ensure a decent minimum width */
+    justify-content: center; /* Center content if width is larger than needed */
+    text-decoration: none; /* Remove underline from the whole block if it's an <a> tag itself */
+}
+
+.contact-method:hover {
+    background-color: var(--accent-color-hover);
+}
+
+/*
+   If you had specific fill changes for SVG on hover, these won't directly apply to <img>.
+   You can add a subtle effect to the image itself on hover if desired:
+*/
+
+.contact-method:hover .contact-link-text {
+    color: var(--bg-color); /* Change text color on hover */
+}
+
+.contact-icon { /* This class is now on the <img> tag */
+    width: 24px;  /* Desired width of the icon image */
+    height: 24px; /* Desired height of the icon image */
+    margin-right: 12px;
+    object-fit: contain; /* Ensures the image scales nicely within the dimensions */
+    /* Remove fill property, as it's for SVGs */
+    /* fill: var(--accent-color-hover); */ /* REMOVE THIS LINE */
+}
+
+.contact-link-text {
+    font-family: var(--font-body);
+    font-size: 1.1em;
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: transparent;
+    color: var(--accent-color-hover);
+    border: 2px solid var(--accent-color-hover);
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    margin: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn:hover {
+    background-color: var(--accent-color-hover);
+    color: var(--bg-color);
+}
+
+.contact-intro-text {
+    text-align: center;
+    margin-bottom: 30px; /* Or whatever margin you prefer */
+    font-size: 1.1em;    /* Or whatever font size you prefer */
+}
+
+.no-wrap { /* You already have this for "reach out" */
+    white-space: nowrap;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #hero h1 {
+        font-size: 2.5em;
+    }
+    #hero p {
+        font-size: 1.1em;
+    }
+    .content-section h2 {
+        font-size: 2em;
+    }
+    nav ul {
+        display: none; /* Simple hide for now, would implement hamburger */
+    }
+    .about-content {
+        flex-direction: column;
+    }
+    .about-photo {
+        margin-top: 30px;
+        max-width: 200px; /* Smaller photo on mobile */
+        align-self: center;
+    }
+}
+
+.project-card.dimmed {
+    opacity: 0.4; /* You can adjust this value */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    /* Optionally, slightly scale down dimmed cards */
+    /* transform: scale(0.98); */
+}
+
+.project-card.focused {
+    /* Styles for the card that is currently focused */
+    opacity: 1 !important; /* Ensure it's fully visible */
+    transform: translateY(-5px) scale(1.03); /* Slightly larger and lifted */
+    box-shadow: 0 12px 35px rgba(42, 82, 190, 0.3); /* More prominent shadow, using pulse color idea */
+    z-index: 10; /* Bring to front if overlapping occurs */
+    position: relative; /* Needed for z-index to work effectively */
+}
+
+.project-card:not(.focused):not(.dimmed):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.education-grid {
+    display: grid;
+    /* Adjust minmax to encourage three columns on wider screens */
+    /* Example: min of 250px, max of 1fr. If the container is wide enough for three 250px items + gaps, it will make three. */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* TRY ADJUSTING THE 280px value */
+    gap: 30px;
+}
+
+.education-item {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 5px solid var(--accent-color-hover); /* Or a different accent */
+}
+
+.education-item h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4em;
+    margin-bottom: 5px;
+    color: var(--primary-text-color);
+}
+
+.education-item .institution,
+.education-item .company-location { /* For experience items */
+    font-family: var(--font-body);
+    font-size: 1.1em;
+    color: var(--secondary-text-color);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.education-item .details {
+    font-size: 0.95em;
+    color: var(--secondary-text-color);
+    margin-bottom: 10px;
+}
+
+.education-item .dates,
+.experience-item .dates { /* For experience items */
+    font-size: 0.9em;
+    color: var(--accent-color-hover); /* Or secondary text color */
+    font-style: italic;
+}
+
+/* Experience Section */
+.experience-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Each experience item takes full width, stacked */
+    gap: 30px;
+}
+
+.experience-item { /* If not using project-card directly */
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    /* border-left: 5px solid var(--accent-color-hover); */ /* Optional */
+}
+.experience-item h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5em; /* Slightly larger for job titles */
+    margin-bottom: 5px;
+}
+.experience-item ul {
+    list-style-position: outside;
+    padding-left: 20px; /* Indent bullet points */
+    margin-top: 10px;
+    margin-bottom: 15px;
+    color: var(--secondary-text-color);
+}
+.experience-item ul li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+.experience-item .tech-tags {
+    font-size: 0.8em;
+    color: var(--accent-color-hover);
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+/* Styling the Logo in Header */
+#header-logo {
+    height: 40px; /* Adjust as needed */
+    width: auto;   /* Maintain aspect ratio */
+    vertical-align: middle; /* Align with nav text if needed */
+}
+
+nav .logo { /* Adjust if logo text 'BHA' is removed */
+    font-family: var(--font-heading);
+    font-size: 1.8em; /* This might be removed or adjusted if only image is used */
+    font-weight: 700;
+    color: var(--primary-text-color);
+    display: flex; /* To help align if you keep text next to logo */
+    align-items: center;
+}
